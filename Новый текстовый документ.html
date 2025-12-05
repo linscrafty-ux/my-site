@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Загадка</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Arial', sans-serif;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: white;
+            padding: 20px;
+        }
+        .welcome {
+            font-size: 4em;
+            font-weight: bold;
+            margin-bottom: 50px;
+            text-align: center;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+        }
+        .password-input {
+            position: relative;
+            margin-bottom: 40px;
+        }
+        .input-field {
+            width: 300px;
+            height: 80px;
+            font-size: 2.5em;
+            font-weight: bold;
+            text-align: center;
+            border: none;
+            border-bottom: 6px solid #fff;
+            background: transparent;
+            color: white;
+            outline: none;
+            letter-spacing: 20px;
+        }
+        .input-field::placeholder {
+            color: rgba(255,255,255,0.5);
+            letter-spacing: 20px;
+        }
+        .underline {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 300px;
+            height: 6px;
+            background: linear-gradient(90deg, transparent 25%, #fff 25%, #fff 75%, transparent 75%);
+            background-size: 75px 6px;
+            transition: all 0.3s ease;
+        }
+        .input-field:focus + .underline {
+            background: linear-gradient(90deg, #4ade80 25%, #4ade80 75%);
+        }
+        .error-img, .success-img {
+            width: 300px;
+            height: 300px;
+            display: none;
+            margin-top: 30px;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+        }
+        @media (max-width: 480px) {
+            .welcome { font-size: 2.5em; }
+            .input-field { width: 250px; font-size: 2em; }
+            .underline { width: 250px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="welcome">ДОБРО ПОЖАЛОВАТЬ</div>
+    
+    <div class="password-input">
+        <input 
+            type="password" 
+            class="input-field" 
+            maxlength="4" 
+            placeholder="____"
+            oninput="handleInput(this)"
+        >
+        <div class="underline"></div>
+    </div>
+    
+    <img src="sad.png" alt="Грустно" class="error-img" id="sadImg">
+    <img src="success.png" alt="Успех" class="success-img" id="successImg">
+
+    <script>
+        const CORRECT_PASSWORD = "5984";
+        
+        function handleInput(input) {
+            // Только цифры
+            input.value = input.value.replace(/[^0-9]/g, '');
+            
+            // Проверка пароля
+            if (input.value === CORRECT_PASSWORD) {
+                window.location.href = "success.html";
+            } else if (input.value.length === 4) {
+                document.getElementById('sadImg').style.display = 'block';
+                setTimeout(() => {
+                    document.getElementById('sadImg').style.display = 'none';
+                }, 2000);
+                input.value = '';
+            }
+        }
+    </script>
+</body>
+</html>
